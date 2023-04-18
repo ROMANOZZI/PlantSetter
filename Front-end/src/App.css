@@ -1,0 +1,382 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap");
+
+:root {
+  --theme-green: #2cb67d;
+  --theme-grey: #a6acbe;
+  --semi-bold: 600;
+  --regular: 500;
+}
+#root,
+body {
+  height: 100vh;
+  background: #f8f8fb;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  color: #000;
+}
+.user-container {
+  width: 100%;
+  height: 100%;
+
+  flex-direction: row;
+  background-color: #f8f8fb;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.sideBar {
+  background-color: var(--theme-green);
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 6.25rem;
+  flex-direction: column;
+  z-index: 5;
+}
+.icon {
+  width: 2rem;
+}
+.chosen {
+  filter: invert(52%) sepia(80%) saturate(391%) hue-rotate(103deg)
+    brightness(97%) contrast(86%);
+}
+.LogoContainer {
+  background-color: #5bd7a4;
+  height: 6.25rem;
+  width: 6.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25em;
+}
+.Logo {
+  width: 2.5rem;
+}
+.pageContainer {
+  margin: auto;
+  width: 3.375rem;
+  height: 3.375rem;
+  border-radius: 0.5em;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3em;
+}
+.chosenContainer {
+  background-color: #ffffff;
+}
+.settings {
+  position: absolute;
+  bottom: 4.375rem;
+  width: 100%;
+}
+.settings > img {
+  width: 2rem;
+}
+.TopBar {
+  background-color: #ffffff;
+  width: calc(100% - 6.25rem);
+  height: 6.25rem;
+  position: fixed;
+  z-index: 10;
+  left: 6.25rem;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.topContainer {
+  margin: 1.5em;
+  cursor: pointer;
+}
+.topContainer > img {
+  width: 1.5rem;
+}
+.ppContainer {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 3px solid var(--theme-green);
+  overflow: hidden;
+  margin-right: 1.5em;
+}
+#pp {
+  width: 100%;
+  display: inline;
+  height: 100%;
+}
+.App {
+  background-color: #f8f8fb;
+  width: calc(100% - 6.25rem);
+
+  position: absolute;
+  left: 6.25rem;
+  top: 6.25rem;
+}
+.title {
+  font-weight: var(--semi-bold);
+  font-size: 2rem;
+  margin-bottom: 0;
+  color: #000;
+}
+.title-container {
+  margin-left: 3.85rem;
+}
+.small {
+  color: var(--theme-grey);
+  font-weight: var(--regular);
+  font-size: 0.85rem;
+  margin-top: 0.5em;
+}
+.card {
+  width: 24rem;
+  height: 12rem;
+  border-radius: 0.625rem;
+  background-color: #ffffff;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  margin-bottom: 1em;
+}
+.card > div {
+  display: inline-block;
+}
+.stat-i-container {
+  margin-top: 2.25rem;
+  margin-left: 2.25rem;
+}
+.stat-cards {
+  display: flex;
+
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.statsContainer {
+  margin-left: 3.5em;
+}
+.data {
+  font-size: 1.825rem;
+  margin: 50px 0 10px 0;
+  color: black;
+}
+.chart-container {
+  width: 150px;
+  margin-top: 1em;
+}
+.chart-container > p {
+  font-weight: var(--semi-bold);
+  position: absolute;
+  top: 3.25em;
+  left: 3.5em;
+  font-size: 1.25rem;
+}
+.text-data {
+  position: relative;
+  bottom: 5em;
+  left: 1em;
+  font-size: 0.825rem;
+  font-weight: var(--semi-bold);
+  color: #000;
+}
+.strong {
+  margin: 0.5em 0 0.5em 0;
+  font-size: 1.75rem;
+  color: #000;
+}
+.side-icons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.logo-text {
+  font-family: "Fredoka One", cursive;
+  color: var(--theme-green);
+  letter-spacing: 0.08em;
+  font-size: 3rem;
+  font-weight: var(--semi-bold);
+  margin-left: 0.5em;
+}
+.secs {
+  color: #000;
+}
+.tiny {
+  font-size: 0.7rem;
+}
+.chakra-avatar {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+}
+.Name {
+  display: inline-block;
+  margin-left: 1em;
+}
+.add {
+  font-size: 1em;
+  margin-right: 0.15em;
+}
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.Congrats {
+  font-size: 1.8rem;
+  font-weight: var(--semi-bold);
+  margin-bottom: 0.5em;
+}
+
+.info-cont {
+  display: inline-block;
+  margin-left: 1.5em;
+  margin-top: 1.5em;
+}
+.back-G {
+  width: 100%;
+  height: 100px;
+
+  background-color: aqua;
+}
+.buttonGroup {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.post-container {
+  height: fit-content;
+  width: 60%;
+  margin: 1em 2em;
+
+  border-radius: 0.625rem;
+  border-radius: 0.625rem;
+  background-color: #ffffff;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+.post-img-container {
+  border-radius: 20%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.post-img-container > img {
+  height: 200px;
+  margin: 1em 0 1em 1em;
+  border-radius: 5%;
+}
+.big {
+  font-size: 1.5rem;
+  font-weight: var(--semi-bold);
+  display: inline-block;
+}
+
+.indi {
+  cursor: pointer;
+}
+.reactEasyCrop_Container {
+  position: relative;
+  margin: auto;
+}
+@media (max-width: 600px) {
+  .sideBar {
+    background-color: var(--theme-green);
+    display: flex;
+    position: fixed;
+    top: calc(100% - 5rem);
+    height: 5rem;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+  }
+  .pagesContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .pageContainer {
+    margin: 0;
+    height: 2.4rem;
+  }
+
+  .settings {
+    display: none;
+  }
+  .icon {
+    width: 1.5rem;
+  }
+  .LogoContainer {
+    display: none;
+  }
+  .logo-text {
+    margin-left: 0;
+    font-size: 2.5rem;
+  }
+  .TopBar {
+    left: 0;
+  }
+  .App {
+    left: 0;
+    width: 100%;
+    height: fit-content;
+    white-space: normal;
+  }
+  .title-container {
+    margin-left: 1em;
+  }
+  .stat-cards {
+    display: flex;
+    width: 100%;
+    white-space: normal;
+    padding-bottom: 5em;
+    align-items: center;
+  }
+  .card {
+    margin-bottom: 1em;
+    width: 20.85rem;
+    height: 11rem;
+  }
+  .strong {
+    font-size: 2em;
+  }
+  .chart-container {
+    margin-left: 0;
+  }
+  .chart-container > p {
+    left: 2em;
+  }
+  .TopBar {
+    width: 100vw;
+    justify-content: space-between;
+  }
+
+  .topContainer {
+    margin: 0.5em;
+  }
+  .topContainer > img {
+    width: 1.25rem;
+  }
+  .ppContainer {
+    margin-right: 0.25em;
+  }
+  .logo-text {
+    font-size: 1.5rem;
+    margin-left: 0.8em;
+  }
+}
