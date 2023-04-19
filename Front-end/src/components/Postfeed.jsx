@@ -8,33 +8,10 @@ import { startFireBase, app, storage } from "./fb-config";
 import { json } from "body-parser";
 import Recommender from "./KNN";
 import axios from "axios";
-const Postfeed = ({ uid }) => {
-  const key = "d89a2d085a9de66a7168db8d4c52c58f";
+const Postfeed = ({ weather }) => {
   const [posts, setPosts] = React.useState([]);
   const [select, setSelect] = React.useState(-1);
-  const [lat, setLat] = React.useState();
-  const [long, setLong] = React.useState();
-  const [weather, setWeather] = React.useState();
-  React.useEffect(() => {
-    const latref = sRef(startFireBase(), `/${uid}/lat`);
-    const longref = sRef(startFireBase(), `/${uid}/long`);
-    onValue(latref, (snapshot) => {
-      setLat(snapshot.val());
-    });
-    onValue(longref, (snapshot) => {
-      setLong(snapshot.val());
-    });
 
-    if (lat && long) {
-      fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${key}&units=metric`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setWeather(data);
-        });
-    }
-  }, [lat, long]);
   React.useEffect(() => {
     if (weather) {
       const currentMonth = new Date().getMonth() + 1;

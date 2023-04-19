@@ -37,6 +37,7 @@ function App() {
   const TempratureRef = sRef(startFireBase(), "/TEMPERATURE");
   const pumpRef = sRef(startFireBase(), "/state");
   const countRef = sRef(startFireBase(), "/count");
+  const key = "d89a2d085a9de66a7168db8d4c52c58f";
 
   const [cards, setCards] = React.useState([
     {
@@ -57,6 +58,9 @@ function App() {
   const [user, setUser] = React.useState({
     id: null,
   });
+  const [lat, setLat] = React.useState();
+  const [long, setLong] = React.useState();
+  const [weather, setWeather] = React.useState();
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -74,6 +78,26 @@ function App() {
       setLogged(false);
     }
   }, [1]);
+  React.useEffect(() => {
+    const latref = sRef(startFireBase(), `/${user.id}/lat`);
+    const longref = sRef(startFireBase(), `/${user.id}/long`);
+    onValue(latref, (snapshot) => {
+      setLat(snapshot.val());
+    });
+    onValue(longref, (snapshot) => {
+      setLong(snapshot.val());
+    });
+
+    if (lat && long) {
+      fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${key}&units=metric`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setWeather(data);
+        });
+    }
+  }, [lat, long]);
 
   React.useEffect(() => {
     onValue(TempratureRef, (SnapShot) => {
@@ -136,7 +160,7 @@ function App() {
             <React.Fragment>
               <TopBar></TopBar>
               <SideBar></SideBar>
-              <Postfeed uid={user.id}></Postfeed>
+              <Postfeed weather={weather}></Postfeed>
             </React.Fragment>
           }
         ></Route>
@@ -150,6 +174,7 @@ function App() {
               data={data}
               count={count}
               pump={pump}
+              weather={weather}
             ></Dashboard>
           }
         ></Route>
