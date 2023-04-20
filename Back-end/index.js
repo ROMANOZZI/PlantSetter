@@ -86,11 +86,10 @@ app.get("/api/diagnose", (req, res) => {
   }
   loadModel();
 });
-app.get("/api/load-model", (req, res) => {
+app.get("/api/NPK", (req, res) => {
   async function loadModel() {
     // Load the model.
-    let model = fs.readFileSync("model/model.json");
-    res.send(model);
+    let model = await tf.loadLayersModel("file://./models/NPK.json");
+    arr = model.predict(req.query).arraySync()[0];
   }
-  loadModel();
 });
