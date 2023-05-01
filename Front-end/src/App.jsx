@@ -33,10 +33,6 @@ function App() {
   startFireBase();
   const auth = getAuth();
 
-  const HumidityRef = sRef(startFireBase(), "/HUMIDITY");
-  const TempratureRef = sRef(startFireBase(), "/TEMPERATURE");
-  const pumpRef = sRef(startFireBase(), "/state");
-  const countRef = sRef(startFireBase(), "/count");
   const key = "d89a2d085a9de66a7168db8d4c52c58f";
 
   const [cards, setCards] = React.useState([
@@ -50,10 +46,15 @@ function App() {
       unit: "Percent",
       icon: humIcon,
     },
+    {
+      data: 0,
+      unit: "",
+      icon: humIcon,
+    },
   ]);
 
-  const [pump, setPump] = React.useState(false);
-  const [count, setCount] = React.useState();
+  const [state, setState] = React.useState("");
+
   const [logged, setLogged] = React.useState(false);
   const [user, setUser] = React.useState({
     id: null,
@@ -61,14 +62,12 @@ function App() {
   const [lat, setLat] = React.useState();
   const [long, setLong] = React.useState();
   const [weather, setWeather] = React.useState();
-
+  let HumidityRef;
+  let TempratureRef;
+  let moistureRef;
+  let stateRef;
   onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setUser({ id: user.uid });
-      // ...
-    } else {
-      setUser({ id: null });
-    }
+    setUser(user);
   });
 
   React.useEffect(() => {
@@ -79,69 +78,89 @@ function App() {
     }
   }, [1]);
   React.useEffect(() => {
-    const latref = sRef(startFireBase(), `/${user.id}/lat`);
-    const longref = sRef(startFireBase(), `/${user.id}/long`);
-    onValue(latref, (snapshot) => {
-      setLat(snapshot.val());
-    });
-    onValue(longref, (snapshot) => {
-      setLong(snapshot.val());
-    });
+    if (user?.uid) {
+      const siteUnitRef = sRef(
+        startFireBase(),
+        "users/" + user.uid + "/siteUnit"
+      );
 
-    if (lat && long) {
-      fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${key}&units=metric`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setWeather(data);
-        });
+      let siteUnit;
+      onValue(siteUnitRef, (snapshot) => {
+        siteUnit = snapshot.val();
+      });
+
+      HumidityRef = sRef(
+        startFireBase(),
+        "site-units/" + siteUnit + "/HUMIDITY"
+      );
+
+      TempratureRef = sRef(
+        startFireBase(),
+        "site-units/" + siteUnit + "/TEMPERATURE"
+      );
+      moistureRef = sRef(
+        startFireBase(),
+        "site-units/" + siteUnit + "/MOISTURE"
+      );
+      stateRef = sRef(startFireBase(), "site-units" + siteUnit + "/state");
+      const latref = sRef(startFireBase(), `users/${user.uid}/longtitude`);
+      const longref = sRef(startFireBase(), `users/${user.uid}/latitude`);
+      onValue(latref, (snapshot) => {
+        setLat(snapshot.val());
+      });
+      onValue(longref, (snapshot) => {
+        setLong(snapshot.val());
+      });
+
+      if (lat && long) {
+        fetch(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${key}&units=metric`
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            setWeather(data);
+          });
+      }
+      onValue(TempratureRef, (SnapShot) => {
+        setCards((prev) =>
+          prev.map((x) => {
+            if (x.unit == "celisius") return { ...x, data: SnapShot.val() };
+            else return x;
+          })
+        );
+      });
+      onValue(HumidityRef, (SnapShot) => {
+        setCards((prev) =>
+          prev.map((x) => {
+            if (x.unit == "Percent") return { ...x, data: SnapShot.val() };
+            else return x;
+          })
+        );
+      });
+      onValue(moistureRef, (SnapShot) => {
+        setCards((prev) =>
+          prev.map((x) => {
+            if (x.unit == "") return { ...x, data: SnapShot.val() };
+            else return x;
+          })
+        );
+      });
+      onValue(stateRef, (SnapShot) => {
+        setState(SnapShot.val());
+        if (SnapShot.val() == "i" || SnapShot.val() == "d") {
+          console.log(weather);
+          predictNPK(
+            weather.main.weather.join(" "),
+            weather.main.temp,
+            weather.main.humidity
+          ).then((res) => {
+            console.log(res);
+          });
+        }
+      });
     }
-  }, [lat, long]);
-
-  React.useEffect(() => {
-    onValue(TempratureRef, (SnapShot) => {
-      setCards((prev) =>
-        prev.map((x) => {
-          if (x.unit == "celisius") return { ...x, data: SnapShot.val() };
-          else return x;
-        })
-      );
-    });
-    onValue(HumidityRef, (SnapShot) => {
-      setCards((prev) =>
-        prev.map((x) => {
-          if (x.unit == "Percent") return { ...x, data: SnapShot.val() };
-          else return x;
-        })
-      );
-    });
-    onValue(pumpRef, (SnapShot) => {
-      setPump(SnapShot.val());
-    });
-    onValue(countRef, (SnapShot) => {
-      setCount(SnapShot.val());
-    });
-  }, [startFireBase()]);
-  const data = {
-    datasets: [
-      {
-        label: "My First Dataset",
-        data: [count, 50 - count],
-        backgroundColor: ["#2cb67d", "#f8f8fb"],
-        hoverOffset: 2,
-        borderWidth: 2,
-        borderRadius: 9,
-        borderSkipped: false,
-      },
-      {
-        borderWidth: 2,
-        borderRadius: 5,
-        borderSkipped: false,
-      },
-    ],
-  };
-
+  }, [startFireBase, user, lat, long]);
+  console.log(cards);
   return (
     <BrowserRouter>
       <Routes>
@@ -168,15 +187,7 @@ function App() {
         <Route
           exact
           path="/Dashboard"
-          element={
-            <Dashboard
-              cards={cards}
-              data={data}
-              count={count}
-              pump={pump}
-              weather={weather}
-            ></Dashboard>
-          }
+          element={<Dashboard cards={cards} weather={weather}></Dashboard>}
         ></Route>
         <Route
           path="/user"

@@ -2,6 +2,7 @@ import React from "react";
 import Webcam from "react-webcam";
 import { Button, Box } from "@chakra-ui/react";
 import Results from "./Results";
+
 const WebCam = ({ setImage, image, upload, res }) => {
   const webcamRef = React.useRef(null);
   const capture = () => {
