@@ -15,6 +15,7 @@ import { CSSProperties } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { check_email, check_password } from "../../check_creditnials";
 import HashLoader from "react-spinners/HashLoader";
+import { ref as sRef, set } from "firebase/database";
 const small = {
   fontSize: "0.5rem",
   color: "grey",
@@ -43,6 +44,8 @@ const Login = (user, setUser) => {
   const [DB_err, setDB_err] = React.useState(false);
   const Navigate = useNavigate();
   const [loading, setLoading] = React.useState(false);
+  const longtitude = React.useRef();
+  const latitude = React.useRef();
 
   const fieldStyle = {
     bgColor: "white",
@@ -160,6 +163,27 @@ const Login = (user, setUser) => {
             signInWithEmailAndPassword(auth, Email.current, Password.current)
               .then((userCredential) => {
                 setLoading(false);
+                const longref = sRef(
+                  startFireBase(),
+                  `users/${userCredential.user.uid}/longtitude`
+                );
+                const latref = sRef(
+                  startFireBase(),
+                  `users/${userCredential.user.uid}/latitude`
+                );
+                const siteUnitref = sRef(
+                  startFireBase(),
+                  `users/${userCredential.user.uid}/siteUnit`
+                );
+                navigator.geolocation.getCurrentPosition((position) => {
+                  set(longref, position.coords.longitude);
+                  set(latref, position.coords.latitude);
+                  set(
+                    siteUnitref,
+                    "a06e71b81f68d1258833b943b564257b1579bafe88322c107af7b9a70d7c3ad4"
+                  );
+                });
+
                 Navigate("/Dashboard", { replace: true });
               })
               .catch((error) => {

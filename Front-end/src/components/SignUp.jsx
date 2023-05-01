@@ -108,8 +108,7 @@ const SignUp = ({ user, setUser }) => {
     fontSize: "0.8rem",
     color: "red",
   };
-  const longtitude = React.useRef();
-  const latitude = React.useRef();
+
   let ImgUrl = "";
   const handleFacebook = () => {
     signInWithPopup(auth, facebookProvider)
@@ -171,6 +170,7 @@ const SignUp = ({ user, setUser }) => {
    * TODO:Avatar
    * *Done
    * TODO:design personal information page
+   * *Done
    *
    *
    */
@@ -336,7 +336,6 @@ const SignUp = ({ user, setUser }) => {
         <Button
           sx={LoginButton}
           onClick={() => {
-            console.log(longtitude.current);
             if (fname_err || lname_err || email_err || password_err) return;
             else {
               setLoading(true);
@@ -346,18 +345,6 @@ const SignUp = ({ user, setUser }) => {
                 Password.current
               )
                 .then((userCredential) => {
-                  const longref = sRef(
-                    startFireBase(),
-                    userCredential.user.uid + "/long"
-                  );
-                  const latref = sRef(
-                    startFireBase(),
-                    userCredential.user.uid + "/lat"
-                  );
-                  navigator.geolocation.getCurrentPosition((position) => {
-                    set(longref, position.coords.longitude);
-                    set(latref, position.coords.latitude);
-                  });
                   const userRef = ref(
                     storage,
                     "users/" + userCredential.user.uid + "/PP"

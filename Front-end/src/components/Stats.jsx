@@ -13,7 +13,7 @@ import {
   Radio,
   RadioGroup,
 } from "@chakra-ui/react";
-const Stats = ({ cards, data, pump, count, weather }) => {
+const Stats = ({ cards, weather }) => {
   const fieldStyle = {
     bgColor: "white",
     borderRadius: "0.25em",
@@ -26,7 +26,8 @@ const Stats = ({ cards, data, pump, count, weather }) => {
     height: "2rem",
     display: "block",
   };
-  console.log(weather);
+  //console.log(weather);
+
   return (
     <div className="user-container">
       <div className="App">
@@ -60,7 +61,7 @@ const Stats = ({ cards, data, pump, count, weather }) => {
 
               <Box fontSize="25px" display="inline-block" margin="1em">
                 {" "}
-                {weather.weather[0].main}
+                {weather?.weather[0].main}
               </Box>
             </Box>
 
@@ -75,13 +76,12 @@ const Stats = ({ cards, data, pump, count, weather }) => {
               ))}
               <div className="card">
                 <div className="stat-i-container chart-container">
-                  <p className="secs">{parseInt(50 - count)} secs</p>
-                  <Doughnut data={data}> </Doughnut>
+                  <p className="secs"> secs</p>
                 </div>
                 <div>
                   <div className="text-data">
                     water pump is currently
-                    <p className="strong"> {pump ? "On" : "OFF"}</p>
+                    <p className="strong"> {"OFF"}</p>
                   </div>
                 </div>
               </div>
