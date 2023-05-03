@@ -26,6 +26,7 @@ import {
 import { getStorage, ref } from "firebase/storage";
 
 import Dashboard from "./Dashboard";
+import { json } from "body-parser";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -48,8 +49,23 @@ function App() {
     },
     {
       data: 0,
-      unit: "",
-      icon: humIcon,
+      unit: "IDK",
+      icon: null,
+    },
+    {
+      data: 0,
+      unit: "n",
+      icon: null,
+    },
+    {
+      data: 0,
+      unit: "p",
+      icon: null,
+    },
+    {
+      data: 0,
+      unit: "k",
+      icon: null,
     },
   ]);
 
@@ -66,6 +82,9 @@ function App() {
   let TempratureRef;
   let moistureRef;
   let stateRef;
+  let nRef;
+  let pRef;
+  let kRef;
   onAuthStateChanged(auth, (user) => {
     setUser(user);
   });
@@ -100,9 +119,12 @@ function App() {
       );
       moistureRef = sRef(
         startFireBase(),
-        "site-units/" + siteUnit + "/MOISTURE"
+        "site-units/" + siteUnit + "/moisture"
       );
-      stateRef = sRef(startFireBase(), "site-units" + siteUnit + "/state");
+      nRef = sRef(startFireBase(), "site-units/" + siteUnit + "/N");
+      pRef = sRef(startFireBase(), "site-units/" + siteUnit + "/P");
+      kRef = sRef(startFireBase(), "site-units/" + siteUnit + "/K");
+      stateRef = sRef(startFireBase(), "site-units/" + siteUnit + "/state");
       const latref = sRef(startFireBase(), `users/${user.uid}/longtitude`);
       const longref = sRef(startFireBase(), `users/${user.uid}/latitude`);
       onValue(latref, (snapshot) => {
@@ -137,26 +159,42 @@ function App() {
           })
         );
       });
+
       onValue(moistureRef, (SnapShot) => {
         setCards((prev) =>
           prev.map((x) => {
-            if (x.unit == "") return { ...x, data: SnapShot.val() };
+            if (x.unit == "IDK") return { ...x, data: SnapShot.val() };
             else return x;
           })
         );
       });
+
       onValue(stateRef, (SnapShot) => {
         setState(SnapShot.val());
-        if (SnapShot.val() == "i" || SnapShot.val() == "d") {
-          console.log(weather);
-          predictNPK(
-            weather.main.weather.join(" "),
-            weather.main.temp,
-            weather.main.humidity
-          ).then((res) => {
-            console.log(res);
-          });
-        }
+      });
+      onValue(nRef, (SnapShot) => {
+        setCards((prev) =>
+          prev.map((x) => {
+            if (x.unit == "n") return { ...x, data: SnapShot.val() };
+            else return x;
+          })
+        );
+      });
+      onValue(pRef, (SnapShot) => {
+        setCards((prev) =>
+          prev.map((x) => {
+            if (x.unit == "p") return { ...x, data: SnapShot.val() };
+            else return x;
+          })
+        );
+      });
+      onValue(kRef, (SnapShot) => {
+        setCards((prev) =>
+          prev.map((x) => {
+            if (x.unit == "k") return { ...x, data: SnapShot.val() };
+            else return x;
+          })
+        );
       });
     }
   }, [startFireBase, user, lat, long]);
@@ -187,7 +225,13 @@ function App() {
         <Route
           exact
           path="/Dashboard"
-          element={<Dashboard cards={cards} weather={weather}></Dashboard>}
+          element={
+            <Dashboard
+              cards={cards}
+              weather={weather}
+              state={state}
+            ></Dashboard>
+          }
         ></Route>
         <Route
           path="/user"

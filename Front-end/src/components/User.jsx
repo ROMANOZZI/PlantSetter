@@ -23,12 +23,13 @@ function User() {
     borderRadius: "0.25em",
     border: "none",
     fontSize: "1.5em",
-    p: "1em",
-    width: "25rem",
+
+    width: "100%",
+
     mt: "1rem",
     mb: "2rem",
     height: "2rem",
-    display: "block",
+    display: "flex",
   };
   const LoginButton = {
     display: "inline-block",
@@ -66,7 +67,7 @@ function User() {
         position="absolute"
         left="0"
         mt="3em"
-        padding="5em 3em 3em 6em"
+        padding="5em 0em 3em 6em"
       >
         <FormControl
           as="fieldset"
@@ -95,7 +96,7 @@ function User() {
               bgColor="white"
               mx="1em"
               mb={"5em"}
-              width="200px"
+              width="fit-content"
               height="200px"
               border={"8px  solid #2cb67d"}
               src={user.photoURL}
@@ -110,7 +111,7 @@ function User() {
               id="fname"
               sx={fieldStyle}
               disabled={true}
-              defaultValue={user.displayName}
+              value={user.displayName}
             ></Input>
           </div>
           <div className="info-cont">
@@ -121,7 +122,7 @@ function User() {
               id="email"
               sx={fieldStyle}
               disabled={true}
-              defaultValue={user.email}
+              value={user.email}
             ></Input>
           </div>
           <div className="info-cont">
@@ -143,12 +144,13 @@ function User() {
               id="state"
               sx={fieldStyle}
               disabled={true}
-              defaultValue={siteUnit == null ? "NA" : siteUnit}
+              defaultValue={
+                "a06e71b81f68d1258833b943b564257b1579bafe88322c107af7b9a70d7c3ad4"
+              }
             ></Input>
           </div>
           <div className="buttonGroup">
             <Button sx={LoginButton}> Update information</Button>
-            <Button sx={LoginButton}> Discard</Button>
           </div>
         </FormControl>
       </Box>
