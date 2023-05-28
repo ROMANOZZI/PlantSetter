@@ -77,7 +77,7 @@ const Stats = ({ cards, weather, state }) => {
                 margin="1em"
                 justifyContent="center"
               >
-                <Box display="flex" margin="1em">
+                <Box display="flex" margin="1em" marginRight={"2em"}>
                   <Stat>
                     <StatLabel>Temprature</StatLabel>
                     <StatNumber
@@ -87,6 +87,15 @@ const Stats = ({ cards, weather, state }) => {
                     <StatHelpText fontSize={"1rem"}>
                       feels Like {`${weather?.main.feels_like}°C`}
                     </StatHelpText>
+                  </Stat>
+                </Box>
+                <Box display="flex" margin="1em">
+                  <Stat>
+                    <StatLabel>Humidity</StatLabel>
+                    <StatNumber
+                      m="0.5em"
+                      fontSize={"3rem"}
+                    >{`${weather?.main.humidity} %`}</StatNumber>
                   </Stat>
                 </Box>
 

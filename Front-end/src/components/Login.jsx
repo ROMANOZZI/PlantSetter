@@ -84,7 +84,6 @@ const Login = (user, setUser) => {
       size={150}
       aria-label="Loading Spinner"
       data-testid="loader"
-      marginTop="50%"
     />
   ) : (
     <Box

@@ -101,7 +101,7 @@ const Postfeed = ({ weather }) => {
                 ) : (
                   <React.Fragment>
                     <p>{"how to plant : " + post.How_to_plant}</p>
-                    <p>{"water needs : " + post.water_needs}</p>
+                    <p>{"season : " + post.main_planting_season}</p>
                     <p>{"sunlight needs : " + post.sun_needs}</p>
                     <p>
                       {"optimal Temprature : between " +

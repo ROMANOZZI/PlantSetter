@@ -27,6 +27,8 @@ import { getStorage, ref } from "firebase/storage";
 
 import Dashboard from "./Dashboard";
 import { json } from "body-parser";
+import { m } from "framer-motion";
+import predictNPK from "./components/NPK";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -127,6 +129,7 @@ function App() {
       stateRef = sRef(startFireBase(), "site-units/" + siteUnit + "/state");
       const latref = sRef(startFireBase(), `users/${user.uid}/longtitude`);
       const longref = sRef(startFireBase(), `users/${user.uid}/latitude`);
+      let fetilizer;
       onValue(latref, (snapshot) => {
         setLat(snapshot.val());
       });
@@ -159,6 +162,10 @@ function App() {
           })
         );
       });
+      /* This code is listening for changes in the "moisture" value in the Firebase database and updating the
+"cards" state with the new value. It is also calling the "predictNPK" function with the new value
+and updating the "fertilizer" variable if the predicted values are different from the current
+values. Finally, it is logging the new "fertilizer" value to the console. */
 
       onValue(moistureRef, (SnapShot) => {
         setCards((prev) =>
@@ -167,6 +174,16 @@ function App() {
             else return x;
           })
         );
+        //! This is throwing an error
+        temp = predictNPK(SnapShot.val());
+        for (let i = 0; i < fetilizer.length(); i++) {
+          if (fetilizer[i] != temp[i]) {
+            fetilizer = temp;
+
+            console.log(fetilizer);
+            break;
+          }
+        }
       });
 
       onValue(stateRef, (SnapShot) => {

@@ -12,7 +12,7 @@ const Results = ({ res, img }) => {
         src={img}
         alt="img"
         style={{
-          width: "50%",
+          width: "400px",
 
           display: "inline-block",
           height: "fit-content",
@@ -23,7 +23,7 @@ const Results = ({ res, img }) => {
         id="img"
       />
       <Box
-        margin="auto"
+        marginLeft="6em"
         display="flex"
         flexDirection="column"
         alignItems={"center"}

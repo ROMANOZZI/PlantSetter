@@ -108,7 +108,7 @@ const LeafDiagnoses = ({ user }) => {
         >
           <FormControl
             as="fieldset"
-            width="fit-content"
+            width="40vw"
             mx="auto"
             bgColor="white"
             borderRadius="1em"
@@ -118,6 +118,7 @@ const LeafDiagnoses = ({ user }) => {
             autoComplete="off"
             display="flex"
             flexDirection="row"
+            justifyContent="space-between"
           >
             {!croppedImage && (
               <CropperC
@@ -153,7 +154,7 @@ const LeafDiagnoses = ({ user }) => {
         >
           <FormControl
             as="fieldset"
-            width="fit-content"
+            width="40vw"
             mx="auto"
             bgColor="white"
             borderRadius="1em"
@@ -162,7 +163,7 @@ const LeafDiagnoses = ({ user }) => {
             p="3.5em"
             autoComplete="off"
             display="flex"
-            flexDirection="row"
+            justifyContent="space-between"
           >
             <WebCam setImage={setImage} image={img} upload={upload} res={res} />
           </FormControl>

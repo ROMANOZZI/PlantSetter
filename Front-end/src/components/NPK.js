@@ -29,13 +29,16 @@ const decoder = (prediction) => {
   return classes[prediction];
 };
 const predictNPK = (data) => {
-  return fetch("http://localhost:9000/predictNPK", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(Array.from(Encoder(data))),
-  })
+  return fetch(
+    "https://rrjpakl45ws7rodwx4k6flhzjm0qmpyj.lambda-url.us-east-1.on.aws/predictNPK",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Array.from(Encoder(data))),
+    }
+  )
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -50,10 +53,10 @@ const predictNPK = (data) => {
 
 console.log(
   await predictNPK({
-    weather: "few clouds",
-    temp: 50,
-    humidity: 20,
-    corp: "Tomato",
+    weather: "clear sky",
+    temp: 42,
+    humidity: 78,
+    corp: "Potato",
   })
 );
 export default predictNPK;
